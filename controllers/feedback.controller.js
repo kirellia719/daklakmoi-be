@@ -12,8 +12,10 @@ exports.createFeedback = async (req, res) => {
 };
 
 exports.getFeedbacks = async (req, res) => {
+  console.log('Fetching feedback...');
   const data = await Feedback.find().sort({ createdAt: -1 });
-  res.json(data);
+  console.log('Fetched:', data.length);
+  res.json({ status: 200, data: data });
 };
 
 exports.updateStatus = async (req, res) => {

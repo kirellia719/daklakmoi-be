@@ -4,6 +4,6 @@ const feedbackCtrl = require('../controllers/feedback.controller');
 
 router.post('/', feedbackCtrl.createFeedback);
 router.get('/', feedbackCtrl.getFeedbacks);
-router.patch('/:id/status', feedbackCtrl.updateStatus);
+router.put('/:id/status', feedbackCtrl.updateStatus);
 
 module.exports = router;
