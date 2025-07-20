@@ -1,4 +1,6 @@
 require('dotenv').config();
+const fs = require("fs");
+const path = require("path");
 
 const express = require('express');
 const router = express.Router();
@@ -45,6 +47,24 @@ router.post("/tts", async (req, res) => {
     console.error("Backend error:", err);
     res.status(500).send("Server error");
   }
+});
+
+router.post("/song", (req, res) => {
+  const filePath = path.join(__dirname, "assets", "song.mp3");
+
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      console.error("Không đọc được file mp3:", err);
+      return res.status(500).send("Lỗi máy chủ khi đọc file nhạc.");
+    }
+
+
+    setTimeout(() => {
+      res.setHeader("Content-Type", "audio/mpeg");
+      res.setHeader("Content-Disposition", "inline; filename=song.mp3");
+      res.send(data);
+    }, [1000]) // 👈 Trả về buffer
+  });
 });
 
 module.exports = router;
