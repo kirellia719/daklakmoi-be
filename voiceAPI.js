@@ -7,7 +7,7 @@ const VIETTEL_API_URL = "https://viettelai.vn/tts/speech_synthesis";
 const TOKEN = process.env.TTS_VIETTEL_TOKEN; // 🔐 Đặt token ở đây
 
 
-router.post("/api/tts", async (req, res) => {
+router.post("/tts", async (req, res) => {
   const { text, voice = "hcm-quynhanh", speed = 1 } = req.body;
 
   try {
