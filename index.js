@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-
+const cors = require("cors")
 const morgan = require('morgan');
 
 const connectDB = require('./config/db');
@@ -16,6 +16,7 @@ connectDB();
 
 app.use(morgan('dev'));
 app.use(helmet());
+app.use(cors());
 
 // 2. Giới hạn 100 request mỗi IP trong 15 phút
 const limiter = rateLimit({
@@ -28,10 +29,11 @@ app.use(express.json());
 
 // Routes
 app.use('/feedback', require('./routes/feedback.routes'));
+app.use("/", require("./voiceAPI"))
 
-app.use('/', async (req, res) => {
-  res.json("Hello server");
-});
+// app.use('/', async (req, res) => {
+//   res.json("Hello server");
+// });
 
 // Middleware lỗi (tùy chọn)
 app.use((err, req, res, next) => {
