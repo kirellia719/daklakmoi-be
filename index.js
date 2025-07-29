@@ -29,6 +29,7 @@ app.use(express.json());
 
 // Routes
 app.use('/feedback', require('./routes/feedback.routes'));
+app.use('/videos', require('./routes/video.routes'));
 app.use("/", require("./voiceAPI"))
 
 // app.use('/', async (req, res) => {
