@@ -15,9 +15,15 @@ const PORT = process.env.PORT || 8080;
 connectDB();
 
 app.use(morgan('dev'));
-app.use(helmet());
-app.use(cors());
-
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' }, // ⚠️ Cho phép tải ảnh từ origin khác
+  })
+);
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 // 2. Giới hạn 100 request mỗi IP trong 15 phút
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 phút
@@ -27,8 +33,13 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(express.json());
 
+app.use('/uploads', (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // hoặc localhost:5173
+  next();
+});
+app.use('/uploads', express.static('uploads'));
 // Routes
-app.use('/feedback', require('./routes/feedback.routes'));
+app.use('/images', require('./routes/image.routes'));
 app.use('/videos', require('./routes/video.routes'));
 app.use("/", require("./voiceAPI"))
 
